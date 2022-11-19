@@ -15,6 +15,11 @@ export default function Main() {
       return;
     }
 
+    if (v.length === 6) {
+      setV(e.target.value);
+      return;
+    }
+
     setV(e.target.value + " ");
   }
 
