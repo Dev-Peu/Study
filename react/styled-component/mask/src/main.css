@@ -22,9 +22,14 @@
   line-height: 24px;
   text-align: center;
 
+  padding: 10px;
   color: #696363;
 }
 
 .display {
   color: rgb(153, 255, 0);
+}
+
+.error {
+  border: 1px solid red;
 }

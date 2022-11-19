@@ -1,27 +1,51 @@
-import { useEffect, useState } from "react";
-import InputMask from "react-input-mask";
+import { useState } from "react";
+import Input from "./components/Input";
 import "./main.css";
 
 export default function Main() {
-  const [v, setV] = useState("");
-  const [clicked, setClicked] = useState(false);
+  let [v, setV] = useState("");
 
-  useEffect(() => {
-    if (clicked) {
-      const inputMasked = document.querySelector(".inputMasked");
-      console.log(inputMasked.value);
+  function handleChange(e) {
+    if (e.nativeEvent.data === " ") {
+      return;
     }
-  }, [clicked]);
+
+    if (e.nativeEvent.inputType === "deleteContentBackward") {
+      setV(e.target.value);
+      return;
+    }
+
+    setV(e.target.value + " ");
+  }
+
+  function enviar() {
+    if (v.length !== 8) {
+    }
+
+    v = v.split(" ");
+    console.log(v);
+    v = v.join("");
+    console.log(v);
+  }
+
   return (
     <div className="container">
-      <InputMask
+      {/* <InputMask
         className="inputMasked"
         onChange={(e) => setV(e.target.value)}
         value={v}
         mask={"9 9 9 9"}
         placeholder="numeros que vc recebeu"
+      /> */}
+      <Input
+        className="inputStyled"
+        type="tel"
+        placeholder="_ _ _ _"
+        maxLength={7}
+        value={v}
+        onChange={handleChange}
       />
-      <button onClick={() => setClicked(!clicked)}>Clique</button>
+      <button onClick={enviar}>enviar</button>
     </div>
   );
 }

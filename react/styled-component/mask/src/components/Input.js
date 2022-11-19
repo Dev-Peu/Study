@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const Input = styled.InputMask`
+const Input = styled.input`
   all: unset;
   background-color: white;
 
