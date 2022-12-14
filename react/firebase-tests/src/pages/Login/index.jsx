@@ -6,6 +6,7 @@ import { useState } from "react";
 export default function Login() {
   const ddd = "+55";
   const [phone, setPhone] = useState(ddd);
+  const [otp, setOtp] = useState("");
 
   function generateRecaptcha() {
     window.recaptchaVerifier = new RecaptchaVerifier(
@@ -20,15 +21,34 @@ export default function Login() {
     );
   }
 
+  function verifyOtp(e) {
+    if (otp.length === 6) {
+      //verify otp
+      let confirmationResult = window.confirmationResult;
+      confirmationResult
+        .confirm(otp)
+        .then((result) => {
+          // User signed in successfully.
+          const user = result.user;
+          console.log(user);
+          // ...
+        })
+        .catch((error) => {
+          // User couldn't sign in (bad verification code?)
+          // ...
+        });
+    }
+  }
+
   async function submit(e) {
     e.preventDefault();
     if (phone.length >= 12) {
       generateRecaptcha();
       let appVerifier = window.recaptchaVerifier;
       signInWithPhoneNumber(auth, phone, appVerifier)
-        .then((confirm) => {
-          console.log(confirm);
-          window.confirmationResult = confirm;
+        .then((confirmationResult) => {
+          console.log(confirmationResult);
+          window.confirmationResult = confirmationResult;
         })
         .catch((error) => {
           console.log(error);
@@ -53,8 +73,15 @@ export default function Login() {
           Enviar
         </button>
         <label>
-          4 dígitos:
-          <input type="tel" maxLength={4} />
+          dígitos:
+          <input
+            type="tel"
+            value={otp}
+            onChange={(e) => setOtp(e.target.value)}
+          />
+          <button type="button" onClick={() => verifyOtp()}>
+            send
+          </button>
         </label>
         <div id="recaptcha-container"></div>
       </form>
